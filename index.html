@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | E-commerce product page</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <!-- HEADER & NAV SECTION -->
+    <header>
+      <div class="topDiv">
+        <img src="images/logo.svg" alt="" id="logo">
+        
+        <!-- NAV BAR -->
+        <nav>
+          <ul>
+            <li class="nav__item">collections</li>
+            <li class="nav__item">men</li>
+            <li class="nav__item">women</li>
+            <li class="nav__item">about</li>
+            <li class="nav__item">contact</li>
+          </ul>
+        </nav>
+
+        <div class="user">
+          <div class="navCart">
+            <p id="cart-size hidden"></p>
+            <img src="images/icon-cart.svg" alt="" id="cart--icon">
+          </div>
+            <img src="images/image-avatar.png" alt="User" id="avatar">
+        </div>
+
+        <!-- USER'S CART -->
+        <div id="userCart" class="hidden">
+          <div class="userCart-header"><p id="cart-title">cart</p> </div>
+          <div class="cartInfo">
+            <div class="message">
+              <p>Your cart is empty.</p>
+            </div>
+
+            <div class="cartItem hidden">
+              
+                <div class="userPurchase">
+                  <div class="itemPurchase">
+                    <img src="images/image-product-1-thumbnail.jpg" alt="" class="cartItem-img">
+  
+                    <div class="item_info">
+                      <p class="item--name">fall limited edition sneakers</p>
+                      <p class="item--price">$125.00 x <span id="itemAmt">3</span> <span id="item_total">$375.00</span></p>
+  
+                    </div>
+                    <img src="images/icon-delete.svg" alt="" id="delete">
+                  </div>
+                  
+                </div>
+              
+              <button class="checkoutBtn">checkout</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </header>
+
+    <main>
+      <!-- MAIN PRODUCT SECTION -->
+      <div class="products">
+        <!-- PRODUCT IMAGES -->
+        <div class="mainProduct-div">
+          <img src="images/image-product-1.jpg" alt="Product Image" class="mainProduct-img">
+        </div>
+
+        <div class="thumbnails">
+          <img src="images/image-product-1-thumbnail.jpg" alt="image 1 thumbnail" class="thumb-img active--thumbnail" data-thumbnail="1">
+          <img src="images/image-product-2-thumbnail.jpg" alt="image 2 thumbnail" class="thumb-img" data-thumbnail="2">
+          <img src="images/image-product-3-thumbnail.jpg" alt="image 3 thumbnail" class="thumb-img" data-thumbnail="3">
+          <img src="images/image-product-4-thumbnail.jpg" alt="image 4 thumbnail" class="thumb-img" data-thumbnail="4">
+        </div>
+      </div>
+
+      <!-- PRODUCT INFORMATION -->
+      <div class="product_info">
+        <h4>sneaker company</h4>
+        <h1>fall limited edition <br> sneakers</h1>
+        <p class="product_desc">These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.</p>
+
+        <div class="price">
+          <p id="amount">$125.00</p>
+          <p id="discount">50%</p>
+        </div>
+        <p id="old_price">$250.00</p>
+
+        <div class="cart">
+          <div class="add-to-cart">
+            <button id="addBtn">&minus;</button>
+            <span id="cartAmount">0</span>
+            <button id="removeBtn">&plus;</button>
+          </div>
+
+          <button class="main-cartBtn">
+            <img src="images/icon-cart.svg" alt="">
+            Add to cart
+          </button>
+        </div>
+
+
+      </div>
+    </main>
+
+    <!-- MODAL VIEW SECTION -->
+    <div class="overlay hidden"></div>
+    <div class="modal hidden">
+      <button class="slider_btnLeft">&lt;</button>
+      <button class="slider_btnRight">&gt;</button>
+      <div class="modal-main_Img">
+        <!-- <img src="images/icon-close.svg" alt=""> -->
+        <button class="btn--close">&times;</button>
+        <img src="images/image-product-1.jpg" alt="Product image" class="modal-img">
+      </div>
+
+      <div class="modal--thumbnails">
+        <img src="images/image-product-1-thumbnail.jpg" alt="image 1 thumbnail" class="modal-thumbnail active--modal">
+        <img src="images/image-product-2-thumbnail.jpg" alt="image 2 thumbnail" class="modal-thumbnail">
+        <img src="images/image-product-3-thumbnail.jpg" alt="image 3 thumbnail" class="modal-thumbnail">
+        <img src="images/image-product-4-thumbnail.jpg" alt="image 4 thumbnail" class="modal-thumbnail">
+      </div>
+    </div>
+
+
+  </div>
+</body>
+</html>
+
+<!-- 
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>. 
+  </div>-->
