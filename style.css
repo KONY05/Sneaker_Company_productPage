@@ -239,7 +239,7 @@ main{
 .active--thumbnail{
     border: 2px solid var(--main-color);
     background-color: var(--thumbnail-overlay);
-    opacity: 40%;
+    opacity: 50%;
 }
 
 /* PRODUCT INFO */
