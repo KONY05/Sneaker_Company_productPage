@@ -7,7 +7,7 @@ const userCart = document.querySelector('#userCart');
 const message = document.querySelector('.message');
 const cartItem = document.querySelector('.cartItem');
 const userPurchase = document.querySelector('.userPurchase');
-const cartItem_Img = document.querySelector('.cartItem-img');
+// const cartItem_Img = document.querySelector('.cartItem-img');
 const purchaseAmt = document.querySelector('#itemAmt');
 const itemTotal = document.querySelector('#item_total');
 const deleteBtn = document.querySelector('#delete');
@@ -18,10 +18,11 @@ const thumbnails = document.querySelectorAll('.thumb-img');
 const mainProductImg = document.querySelector('.mainProduct-img');
 
 // ADD_TO_CART VARIABLES
-const cartAmount = document.querySelectorAll('#cartAmount');
-const addBtn = document.querySelectorAll('#addBtn');
-const removeBtn = document.querySelectorAll('#removeBtn');
-const addToCartBtn = document.querySelectorAll('.main-cartBtn');
+const cartAmount = document.querySelector('#cartAmount');
+const addBtn = document.querySelector('#addBtn');
+const reduceBtn = document.querySelector('#removeBtn');
+const addToCartBtn = document.querySelector('.main-cartBtn');
+const INIT_CART_AMT = 0;
 
 // MODAL VARIABLES
 const overlay = document.querySelector('.overlay');
@@ -32,9 +33,13 @@ const closeBtn = document.querySelector('.btn--close');
 const modalImg = document.querySelector('.modal-img');
 const modalThumbnails = document.querySelectorAll('.modal-thumbnail');
 
-const userLog = {
-    userCart: []
-}
+const SHOE_PRICE = 125.00;
+let priceTotal;
+let purchase;
+
+// const userLog = {
+//     userCart: []
+// }
 
 class SneakerView {
     _clicked;
@@ -53,7 +58,7 @@ class SneakerView {
         
         moveToRightBtn.addEventListener('click', this._nextSlide.bind(this));
         moveToLeftBtn.addEventListener('click', this._prevSlide.bind(this));
-        // this._init();
+        this._goToSlide(0);
     }
 
     _toMainImg(selector, mainImg, thumbImgs, activeClass){
@@ -105,7 +110,7 @@ class SneakerView {
     }
 
     _displayCart() {
-        userCart.classList.toggle('hidden');
+        userCart.classList.remove('hidden');
     }
 
     _hideCart(e) {
@@ -143,11 +148,67 @@ class SneakerView {
         this._goToSlide(this._curSlide);
         this._activeModalThumbnail(this._curSlide);
     }
+}
 
-    _init() {
-        this._goToSlide(0);
+class SneakerOrder extends SneakerView{
+    _amount = 1;
+    _negAmt;
+    _itemNum = 1;
+    _cartImg;
+
+    constructor() {
+        super();
+
+        cartAmount.textContent = INIT_CART_AMT;
+        addBtn.addEventListener('click', this._increaseToCart.bind(this));
+        reduceBtn.addEventListener('click', this._reduceFromCart.bind(this));
+        addToCartBtn.addEventListener('click', this._addToCart.bind(this));
+    }
+
+    _increaseToCart() {
+        if (this._amount >= 0) cartAmount.textContent = this._amount++;
+    }
+
+    _reduceFromCart() {
+        this._negAmt = this._amount--;
+        if (this._negAmt < 2) return;
+
+        cartAmount.textContent = this._amount-1;
+    }
+
+    _addToCart() {
+        if (this._amount === 1) return;
+        
+        cartSize.classList.remove('hidden');
+        cartSize.textContent = this._itemNum++;
+        this._renderOrder();
+    }
+
+    _renderOrder() {
+        message.classList.add('hidden');
+        cartItem.classList.remove('hidden');
+
+        priceTotal = SHOE_PRICE * this._amount;
+        this._cartImg = document.querySelector('.thumb-img.active--thumbnail').getAttribute('src');
+
+        const html = `<div class="itemPurchase">
+                    <img src="${this._cartImg}" alt="" class="cartItem-img">
+  
+                    <div class="item_info">
+                      <p class="item--name">fall limited edition sneakers</p>
+                      <p class="item--price">$${SHOE_PRICE}.00 x <span id="itemAmt">${this._amount - 1}</span> <span id="item_total">$${priceTotal}.00</span></p>
+  
+                    </div>
+                    <img src="images/icon-delete.svg" alt="" id="delete">
+                  </div>`;
+        
+        
+        userPurchase.insertAdjacentHTML('afterbegin', html);
     }
 }
 
-const init = new SneakerView();
-init;
+const userView = new SneakerView();
+const userOrder = new SneakerOrder();
+
+userView;
+userOrder;

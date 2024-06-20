@@ -188,6 +188,21 @@ ul{
     cursor: pointer;
 }
 
+.fadeLeft{
+    animation: deleteAnimation 2s forwards;
+}
+
+@keyframes deleteAnimation{
+    0% {
+        display: block;
+        transform: translateX(0);
+    }
+    100% {
+        display: none;
+        transform: translateX(-100px);
+    }
+}
+
 .checkoutBtn{
     background-color: var(--main-color);
     border: none;
