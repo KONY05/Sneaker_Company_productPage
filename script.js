@@ -37,9 +37,6 @@ const SHOE_PRICE = 125.00;
 let priceTotal;
 let purchase;
 
-// const userLog = {
-//     userCart: []
-// }
 
 class SneakerView {
     _clicked;
@@ -61,7 +58,8 @@ class SneakerView {
         this._goToSlide(0);
     }
 
-    _toMainImg(selector, mainImg, thumbImgs, activeClass){
+    _toMainImg(selector, mainImg, thumbImgs, activeClass) {
+        // Event listener to allow thumbnail and modal thumbnail display on the mainDiv
         document.querySelector(selector).addEventListener('click', function (e) {
             if (e.target.classList.contains('thumb-img') || e.target.classList.contains('modal-thumbnail')) {
                     
@@ -74,6 +72,7 @@ class SneakerView {
     }
 
     _openModalView() {
+        // Function to display modal view on mainDiv click and display last viewed image along with active modal thumbnail
             overlay.classList.remove('hidden');
             modalView.classList.remove('hidden');
 
@@ -89,6 +88,7 @@ class SneakerView {
     }
     
     _closeModal() {
+        // Function to close modal view on closeBtn click and display last viewed image
         overlay.classList.add('hidden');
         modalView.classList.add('hidden');
 
@@ -104,30 +104,36 @@ class SneakerView {
     }
 
     _closeModalEnterKey(e) {
+        // Function to close modal view on Enter keypress and display last viewed image
         if (e.key !== 'Enter') return;
 
         this._closeModal();
     }
 
     _displayCart() {
+        // Function to display user cart on cart icon click
         userCart.classList.remove('hidden');
     }
 
     _hideCart(e) {
+        // Function to hide cartItem once body is clicked
         if(e.target !== cartIcon) userCart.classList.add('hidden');
     }
 
     _goToSlide(img) {
+        // Function to go to the next/prev image
         modalImg.setAttribute('src', `images/image-product-${img + 1}.jpg`)
     }
 
     _activeModalThumbnail(img) {
+        // Functiion to match the current image and activate its thumbnail
         modalThumbnails.forEach(mt => mt.classList.remove('active--modal'))
 
         document.querySelector(`.modal-thumbnail[data-thumbnail="${img + 1}"]`).classList.add('active--modal');
     }
 
     _nextSlide() {
+        // Function to move to the next image
         if (this._curSlide === this._maxSlide - 1) {
             this._curSlide = 0;
         } else{
@@ -139,6 +145,7 @@ class SneakerView {
     }
 
     _prevSlide() {
+        // Function to move to the prev image
         if (this._curSlide === 0) {
             this._curSlide = this._maxSlide - 1;
         } else {
@@ -166,10 +173,12 @@ class SneakerOrder extends SneakerView{
     }
 
     _increaseToCart() {
+        // Function to increase purchase amount
         if (this._amount >= 0) cartAmount.textContent = this._amount++;
     }
 
     _reduceFromCart() {
+        // Function to reduce from purchase amount
         this._negAmt = this._amount--;
         if (this._negAmt < 2) return;
 
@@ -177,6 +186,7 @@ class SneakerOrder extends SneakerView{
     }
 
     _addToCart() {
+        // Function to display cart size when user adds a purchase to their cart
         if (this._amount === 1) return;
         
         cartSize.classList.remove('hidden');
@@ -185,6 +195,7 @@ class SneakerOrder extends SneakerView{
     }
 
     _renderOrder() {
+        // Function to render user's items to their cart
         message.classList.add('hidden');
         cartItem.classList.remove('hidden');
 
