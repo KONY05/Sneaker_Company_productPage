@@ -2,15 +2,17 @@
 
 //USER'S CART VARIABLES
 const cartIcon = document.querySelector('#cart--icon');
-const cartSize = document.querySelector('#cart-size')
+const cartSize = document.querySelector('#cart-size');
+const clearUserCart = document.querySelector('#clear--cart');
 const userCart = document.querySelector('#userCart');
 const message = document.querySelector('.message');
 const cartItem = document.querySelector('.cartItem');
+const cartInfo = document.querySelector('.cartInfo');
 const userPurchase = document.querySelector('.userPurchase');
 // const cartItem_Img = document.querySelector('.cartItem-img');
 const purchaseAmt = document.querySelector('#itemAmt');
 const itemTotal = document.querySelector('#item_total');
-const deleteBtn = document.querySelector('#delete');
+let deleteBtn;
 const checkoutBtn = document.querySelector('.checkoutBtn');
 
 // MAIN PRODUCT IMAGE VARIABLES
@@ -33,9 +35,13 @@ const closeBtn = document.querySelector('.btn--close');
 const modalImg = document.querySelector('.modal-img');
 const modalThumbnails = document.querySelectorAll('.modal-thumbnail');
 
+// console.log(deleteBtn);
+
 const SHOE_PRICE = 125.00;
 let priceTotal;
 let purchase;
+
+let userItems = [];
 
 
 class SneakerView {
@@ -56,6 +62,10 @@ class SneakerView {
         moveToRightBtn.addEventListener('click', this._nextSlide.bind(this));
         moveToLeftBtn.addEventListener('click', this._prevSlide.bind(this));
         this._goToSlide(0);
+
+        userCart.addEventListener('click', function (e) {
+            if(e.target === userCart) userCart.classList.remove('hidden');
+        })
     }
 
     _toMainImg(selector, mainImg, thumbImgs, activeClass) {
@@ -112,12 +122,12 @@ class SneakerView {
 
     _displayCart() {
         // Function to display user cart on cart icon click
-        userCart.classList.remove('hidden');
+        userCart.classList.remove('hidden');   
     }
 
     _hideCart(e) {
         // Function to hide cartItem once body is clicked
-        if(e.target !== cartIcon) userCart.classList.add('hidden');
+        if(e.target !== cartInfo && e.target !== cartIcon) userCart.classList.add('hidden');
     }
 
     _goToSlide(img) {
@@ -157,19 +167,27 @@ class SneakerView {
     }
 }
 
+let data, size;
+
 class SneakerOrder extends SneakerView{
     _amount = 1;
     _negAmt;
-    _itemNum = 1;
-    _cartImg;
+    _itemNum = 0;
+    _itemImg;
+
 
     constructor() {
         super();
+
+        clearUserCart.addEventListener('click', this._clearStorage.bind(this));
 
         cartAmount.textContent = INIT_CART_AMT;
         addBtn.addEventListener('click', this._increaseToCart.bind(this));
         reduceBtn.addEventListener('click', this._reduceFromCart.bind(this));
         addToCartBtn.addEventListener('click', this._addToCart.bind(this));
+        userPurchase.addEventListener('click', this._deleteItem.bind(this));
+
+        this._getStorage();
     }
 
     _increaseToCart() {
@@ -180,6 +198,7 @@ class SneakerOrder extends SneakerView{
     _reduceFromCart() {
         // Function to reduce from purchase amount
         this._negAmt = this._amount--;
+        // 2 because amount is ahead of negAmt by 1 and ahead of INIT_CART_AMT by 2
         if (this._negAmt < 2) return;
 
         cartAmount.textContent = this._amount-1;
@@ -190,36 +209,123 @@ class SneakerOrder extends SneakerView{
         if (this._amount === 1) return;
         
         cartSize.classList.remove('hidden');
-        cartSize.textContent = this._itemNum++;
-        this._renderOrder();
+        
+        this._displayCartItems();
+        this._reset();
     }
 
-    _renderOrder() {
-        // Function to render user's items to their cart
+    _displayCartItems() {
+        // Function to display user's items to their cart and save it to their window
         message.classList.add('hidden');
         cartItem.classList.remove('hidden');
 
-        priceTotal = SHOE_PRICE * this._amount;
-        this._cartImg = document.querySelector('.thumb-img.active--thumbnail').getAttribute('src');
+        this._renderOrder();
+        this._setStorage();
+    }
 
+    _renderOrder() {
+        // Function to render markup to each cart item
+        priceTotal = SHOE_PRICE * (this._amount - 1);
+        this._itemImg = document.querySelector('.thumb-img.active--thumbnail').getAttribute('src');
+
+        purchase = {
+            itemImage: this._itemImg,
+            item_shoePrice: SHOE_PRICE,
+            itemAmt: this._amount,
+            item_total: priceTotal
+        };
+
+        userItems.push(purchase);
+
+        userPurchase.innerHTML = '';
+
+        const filteredCartItems = userItems.filter(el => el.itemAmt > 1);
+
+        filteredCartItems.forEach(item => this._cartMarkup(item));
+    }
+
+    _cartMarkup(item) {
+        // Function to create and add HTML markup to the User Purchases div
         const html = `<div class="itemPurchase">
-                    <img src="${this._cartImg}" alt="" class="cartItem-img">
+                    <img src="${item.itemImage}" alt="" class="cartItem-img">
   
                     <div class="item_info">
                       <p class="item--name">fall limited edition sneakers</p>
-                      <p class="item--price">$${SHOE_PRICE}.00 x <span id="itemAmt">${this._amount - 1}</span> <span id="item_total">$${priceTotal}.00</span></p>
+                      <p class="item--price">$${item.item_shoePrice}.00 x <span id="itemAmt">${item.itemAmt - 1}</span> <span id="item_total">$${item.item_total}.00</span></p>
   
                     </div>
-                    <img src="images/icon-delete.svg" alt="" id="delete">
+                    <img src="images/icon-delete.svg" alt="" class="delete">
                   </div>`;
         
-        
+             
         userPurchase.insertAdjacentHTML('afterbegin', html);
+    }
+
+    _deleteItem(e) {
+        // Function to delete selected item from the DOM and local storage
+        if (e.target.classList.contains('delete')) {
+            const itemElem = e.target.closest('.itemPurchase');
+            const itemIndex = Array.from(userPurchase.children).indexOf(itemElem);
+
+            // Remove item from userItems array
+            userItems.splice(itemIndex, 1);
+
+            // Remove item from DOM
+            itemElem.remove();
+
+            // Update local storage
+            this._setStorage();
+
+            // Update cart size
+            if (userItems.length !== 0) return; 
+            cartSize.classList.add('hidden');
+            message.classList.remove('hidden');
+            cartItem.classList.add('hidden');
+        }
+    }
+
+    _setStorage() {
+        // Function to create a local storage item
+        localStorage.setItem('userItems', JSON.stringify(userItems));
+    }
+
+    _clearStorage() {
+        // Function to clear the local storage item aswell as the user's cart
+        localStorage.clear('userItems');
+
+        userItems = [];
+        cartSize.textContent = '';
+        cartSize.classList.add('hidden');
+        cartItem.classList.add('hidden');
+        message.classList.remove('hidden');
+    }
+
+    _getStorage() {
+        // Function to get storage and render it to the User Purchase div
+         data = JSON.parse(localStorage.getItem('userItems'));
+
+        if (!data) return;
+
+        userItems = data;
+
+        if (userItems.length > 0) {
+            cartSize.classList.remove('hidden');
+        }
+
+        message.classList.add('hidden');
+        cartItem.classList.remove('hidden');
+      
+        userItems.forEach((items) => {
+            this._renderOrder(items);
+        })
+    }
+
+    _reset() {
+        // Function to start the counting of amount from the beginning
+        cartAmount.textContent = INIT_CART_AMT;
+        this._amount = 1;
     }
 }
 
 const userView = new SneakerView();
 const userOrder = new SneakerOrder();
-
-userView;
-userOrder;
