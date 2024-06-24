@@ -1,6 +1,6 @@
 'use strict';
 
-//USER'S CART VARIABLES
+// USER'S CART VARIABLES
 const cartIcon = document.querySelector('#cart--icon');
 const cartSize = document.querySelector('#cart-size');
 const clearUserCart = document.querySelector('#clear--cart');
@@ -9,11 +9,14 @@ const message = document.querySelector('.message');
 const cartItem = document.querySelector('.cartItem');
 const cartInfo = document.querySelector('.cartInfo');
 const userPurchase = document.querySelector('.userPurchase');
-// const cartItem_Img = document.querySelector('.cartItem-img');
 const purchaseAmt = document.querySelector('#itemAmt');
 const itemTotal = document.querySelector('#item_total');
 let deleteBtn;
 const checkoutBtn = document.querySelector('.checkoutBtn');
+// FOR MOBILE VIEW MENU
+const hamburgerIcon = document.querySelector('.hamburger_icon');
+const hamburgerMenu = document.querySelector('.hamburger_menu');
+const closeMenu_btn = document.querySelector('#close_menuBtn');
 
 // MAIN PRODUCT IMAGE VARIABLES
 const thumbnails = document.querySelectorAll('.thumb-img');
@@ -67,6 +70,10 @@ class SneakerView {
         
         mobileBtn_lft.addEventListener('click', this._prevSlide.bind(this));
         mobileBtn_rgt.addEventListener('click', this._nextSlide.bind(this));
+
+        hamburgerIcon.addEventListener('click', this._openMenu.bind(this));
+        closeMenu_btn.addEventListener('click', this._closeMenu.bind(this));
+        overlay.addEventListener('click', this._closeMenu.bind(this));
 
         // this._goToSlide(0);
 
@@ -177,6 +184,17 @@ class SneakerView {
 
         if(e.target === mobileBtn_lft) // FOR MOBILE VIEW SLIDER
         this._goToSlide(this._curSlide, mainProductImg);
+    }
+
+    // FOR MOBILE VIEW MENU
+    _openMenu() {
+        overlay.classList.remove('hidden');
+        hamburgerMenu.classList.remove('hidden');
+    }
+
+    _closeMenu() {
+        overlay.classList.add('hidden');
+        hamburgerMenu.classList.add('hidden');
     }
 }
 

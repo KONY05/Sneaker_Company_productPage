@@ -18,13 +18,13 @@
     <!-- HEADER & NAV SECTION -->
     <header>
       <div class="topDiv">
-        <div class="mobile-menu">
-        <img src="images/icon-menu.svg" alt="icon" class="menu hidden">
+        <div class="menu">
+        <img src="images/icon-menu.svg" alt="icon" class="hamburger_icon hidden">
         <img src="images/logo.svg" alt="" id="logo">
         </div>
         <!-- NAV BAR -->
-        <nav>
-          <ul>
+        <nav class="nav_items">
+          <ul class="nav_list">
             <li class="nav__item">collections</li>
             <li class="nav__item">men</li>
             <li class="nav__item">women</li>
@@ -143,6 +143,20 @@
       </div>
     </div>
 
+    <!-- HAMBURGER MENU SECTION -->
+    <div class="hamburger_menu hidden">
+      <button id="close_menuBtn">&times;</button>
+      <nav class="mobile-menu">
+        <ul class="mobile-menu_list">
+          <li class="menu_links">collections</li>
+          <li class="menu_links">men</li>
+          <li class="menu_links">women</li>
+          <li class="menu_links">about</li>
+          <li class="menu_links">contact</li>
+        </ul>
+      </nav>
+    </div>
+
 
   </div>
 </body>
@@ -151,5 +165,5 @@
 <!-- 
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>. 
+    Coded by <a href="#">ODESANYA KONYINSOLA</a>. 
   </div>-->
