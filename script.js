@@ -18,6 +18,9 @@ const checkoutBtn = document.querySelector('.checkoutBtn');
 // MAIN PRODUCT IMAGE VARIABLES
 const thumbnails = document.querySelectorAll('.thumb-img');
 const mainProductImg = document.querySelector('.mainProduct-img');
+// FOR MOBILE VIEW SLIDER
+const mobileBtn_rgt = document.querySelector('.btnRight_mobile');
+const mobileBtn_lft = document.querySelector('.btnLeft_mobile');
 
 // ADD_TO_CART VARIABLES
 const cartAmount = document.querySelector('#cartAmount');
@@ -61,7 +64,11 @@ class SneakerView {
         
         moveToRightBtn.addEventListener('click', this._nextSlide.bind(this));
         moveToLeftBtn.addEventListener('click', this._prevSlide.bind(this));
-        this._goToSlide(0);
+        
+        mobileBtn_lft.addEventListener('click', this._prevSlide.bind(this));
+        mobileBtn_rgt.addEventListener('click', this._nextSlide.bind(this));
+
+        // this._goToSlide(0);
 
         userCart.addEventListener('click', function (e) {
             if(e.target === userCart) userCart.classList.remove('hidden');
@@ -130,9 +137,9 @@ class SneakerView {
         if(e.target !== cartInfo && e.target !== cartIcon) userCart.classList.add('hidden');
     }
 
-    _goToSlide(img) {
+    _goToSlide(imgNum, selector) {
         // Function to go to the next/prev image
-        modalImg.setAttribute('src', `images/image-product-${img + 1}.jpg`)
+        selector.setAttribute('src', `images/image-product-${imgNum + 1}.jpg`)
     }
 
     _activeModalThumbnail(img) {
@@ -142,7 +149,7 @@ class SneakerView {
         document.querySelector(`.modal-thumbnail[data-thumbnail="${img + 1}"]`).classList.add('active--modal');
     }
 
-    _nextSlide() {
+    _nextSlide(e) {
         // Function to move to the next image
         if (this._curSlide === this._maxSlide - 1) {
             this._curSlide = 0;
@@ -150,11 +157,14 @@ class SneakerView {
             this._curSlide++;
         }
 
-        this._goToSlide(this._curSlide);
+        this._goToSlide(this._curSlide, modalImg);
         this._activeModalThumbnail(this._curSlide);
+
+        if(e.target === mobileBtn_rgt) // FOR MOBILE VIEW SLIDER
+        this._goToSlide(this._curSlide, mainProductImg);
     }
 
-    _prevSlide() {
+    _prevSlide(e) {
         // Function to move to the prev image
         if (this._curSlide === 0) {
             this._curSlide = this._maxSlide - 1;
@@ -162,8 +172,11 @@ class SneakerView {
             this._curSlide--;
         }
 
-        this._goToSlide(this._curSlide);
+        this._goToSlide(this._curSlide, modalImg);
         this._activeModalThumbnail(this._curSlide);
+
+        if(e.target === mobileBtn_lft) // FOR MOBILE VIEW SLIDER
+        this._goToSlide(this._curSlide, mainProductImg);
     }
 }
 

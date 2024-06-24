@@ -9,7 +9,7 @@
   <title>Frontend Mentor | E-commerce product page</title>
 
   <link rel="stylesheet" href="style.css">
-
+  <script src="https://kit.fontawesome.com/04b3f38853.js" crossorigin="anonymous"></script>
   <script defer src="script.js"></script>
 </head>
 
@@ -18,8 +18,10 @@
     <!-- HEADER & NAV SECTION -->
     <header>
       <div class="topDiv">
+        <div class="mobile-menu">
+        <img src="images/icon-menu.svg" alt="icon" class="menu hidden">
         <img src="images/logo.svg" alt="" id="logo">
-        
+        </div>
         <!-- NAV BAR -->
         <nav>
           <ul>
@@ -77,6 +79,8 @@
       <!-- MAIN PRODUCT SECTION -->
       <div class="products">
         <!-- PRODUCT IMAGES -->
+        <button class="btnLeft_mobile hidden">&lt;</button>
+        <button class="btnRight_mobile hidden">&gt;</button>
         <div class="mainProduct-div">
           <img src="images/image-product-1.jpg" alt="Product Image" class="mainProduct-img">
         </div>
@@ -95,11 +99,13 @@
         <h1>fall limited edition <br> sneakers</h1>
         <p class="product_desc">These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.</p>
 
-        <div class="price">
-          <p id="amount">$125.00</p>
-          <p id="discount">50%</p>
+        <div class="allPrices">
+          <div class="price">
+            <p id="amount">$125.00</p>
+            <p id="discount">50%</p>
+          </div>
+          <p id="old_price">$250.00</p>
         </div>
-        <p id="old_price">$250.00</p>
 
         <div class="cart">
           <div class="add-to-cart">
@@ -109,7 +115,7 @@
           </div>
 
           <button class="main-cartBtn">
-            <img src="images/icon-cart.svg" alt="">
+            <i class="fa-solid fa-cart-shopping"></i>
             Add to cart
           </button>
         </div>
