@@ -199,6 +199,7 @@ class SneakerOrder extends SneakerView{
         reduceBtn.addEventListener('click', this._reduceFromCart.bind(this));
         addToCartBtn.addEventListener('click', this._addToCart.bind(this));
         userPurchase.addEventListener('click', this._deleteItem.bind(this));
+        checkoutBtn.addEventListener('click', this._clearStorage.bind(this));
 
         this._getStorage();
     }
