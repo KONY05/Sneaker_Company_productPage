@@ -629,13 +629,14 @@ h1{
     }
 
     .btn--close{
-        right: 1rem;
+        right: 1.3rem;
         top: 1.5rem;
     }
 
     .modal-img{
         width: 90vw;
         height: 350px;
+        margin-top: -18.5rem;
     }
 
     .modal--thumbnails{
